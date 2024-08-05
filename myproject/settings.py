@@ -75,20 +75,52 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myproject.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'todoapp_db',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': '',
-        'PORT':'',
-    },
-}
+if 'RDS_DB_NAME' in os.environ:
+
+    DATABASES = {
+
+            'default': {
+
+                'ENGINE':'django.db.backends.postgresql_psycopg2',
+
+                'NAME': os.environ['RDS_DB_NAME'],
+
+                'USER': os.environ['RDS_USERNAME'],
+
+                'PASSWORD': os.environ['RDS_PASSWORD'],
+
+                'HOST': os.environ['RDS_HOSTNAME'],
+
+                'PORT': os.environ['RDS_PORT'],
+
+            }
+
+        }
+
+else:
+
+    DATABASES = {
+
+        'default': {
+
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+
+            'NAME': 'todoapp_db',
+
+            'USER': 'postgres',
+
+            'PASSWORD': 'postgres',#'This is the password for your local postgres pgadmin'
+
+            'HOST': '', #'Localhost is empty'
+
+            'PORT':'', #Assumes default as 5432
+
+        },
+
+    }
 
 
 # Password validation
